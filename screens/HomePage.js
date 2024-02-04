@@ -1,9 +1,9 @@
 import { ActivityIndicator, SafeAreaView, ScrollView, ImageBackground, Text, StyleSheet, View, FlatList } from 'react-native';
 import { useEffect, useState } from 'react'
+
 import CocktailItem from '../components/CocktailItem'
 
-
-export default function HomePage({ navigation, storage })
+export default function HomePage({ navigation })
 {
 
    
@@ -13,7 +13,7 @@ export default function HomePage({ navigation, storage })
 
    async function fetchData() {
       let arr = []
-      for(let i = 0; i< 26; i++) 
+      for(let i = 0; i< 6; i++) 
       {
          try {
                let letter = String.fromCharCode(97 + i)
@@ -35,7 +35,7 @@ export default function HomePage({ navigation, storage })
          }
          //console.log("array length :", arr.length)
       }
-      for(let i = 0; i< 10; i++) 
+      /*for(let i = 0; i< 10; i++) 
       {
          try {
                //console.log("Chiffre :",i)
@@ -54,7 +54,7 @@ export default function HomePage({ navigation, storage })
          } catch (error) {
             console.error(error)
          }
-      }
+      }*/
       setCocktails(arr)
    }
 

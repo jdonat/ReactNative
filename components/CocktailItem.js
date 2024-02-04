@@ -1,13 +1,24 @@
 import { Pressable, Image, Text, StyleSheet, View } from 'react-native';
 import { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { likedAction } from '../features/liked/likedSlice'
 
 export default function CocktailItem({ navigation, title, image, cocktailId })
 {
-  const [liked, setLiked] = useState(false)
+  const likedArray = useSelector((state) => state.likedHandler.idLiked)
+  const dispatch = useDispatch()
+
+  let index = likedArray.findIndex((el) => el === cocktailId)
+  let fav = false
+  if(index != -1)
+    fav = true
+  
+  const [liked, setLiked] = useState(fav)
 
   function changeImage(like){
     
     setLiked(!like)
+    dispatch(likedAction(cocktailId))
   }
 
       return (
