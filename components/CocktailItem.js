@@ -66,10 +66,11 @@ const styles = StyleSheet.create({
     padding: 30
   },
   title: {
-  fontSize: 30,
+  fontSize: 26,
   color: 'white',
   paddingBottom: 10,
-  fontWeight: 'bold'
+  fontWeight: 'bold',
+  textAlign: 'center'
  },
  image: {
    height: 260,
