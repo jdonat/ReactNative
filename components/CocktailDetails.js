@@ -1,4 +1,4 @@
-import { StyleSheet, Text, Image } from 'react-native';
+import { SafeAreaView, ScrollView, FlatList, StyleSheet, Text, Image } from 'react-native';
 import IngredientItem from './IngredientItem'
 
 export default function CocktailDetails({ cocktail })
@@ -25,7 +25,7 @@ export default function CocktailDetails({ cocktail })
       if(ingredients[i].ingredient == null)
          ingredients.splice(i, 1)
    }
-   console.log(ingredients)
+   //console.log(ingredients)
       return (
       <SafeAreaView style={styles.container}>
          <Text style={styles.title}>{cocktail.strDrink}</Text>
@@ -62,16 +62,28 @@ const styles = StyleSheet.create({
    color: 'white',
    margin: 20
   },
+  scrollView: {
+   alignItems: 'center',
+   justifyContent: 'center',
+  },
   image: {
    height: 300,
-   width: 300
+   width: 300,
+   borderRadius: 10
   },
   instructions: {
    color: 'white',
-   fontSize: 14,
+   fontSize: 18,
    width: 260,
-   backgroundColor: 'rgba(255,255,255,0.3)',
+   backgroundColor: 'rgba(0,0,0,0.6)',
    padding: 20,
-   margin: 20
+   margin: 20,
+   borderRadius: 10,
+   width: 300
+  },
+  recipe: {
+   width: 300,
+   borderRadius: 10,
+   backgroundColor: 'rgba(0,0,0,0.6)',
   }
 })

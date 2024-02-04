@@ -7,31 +7,39 @@ import CocktailItem from '../components/CocktailItem'
 export default function Favorites({ navigation })
 {
   let likedArray = useSelector((state) => state.likedHandler.idLiked)
-  console.log(likedArray)
+  /*useEffect(() => {
+    console.log("FAV START : ", likedArray)
+  }, [])*/
+
   //const [likedArray, setLikedArray] = useState(useSelector((state) => state.likedHandler.idLiked))
   const [cocktails, setCocktails] = useState(null)
 
-  async function fetchData() {
-    console.log(likedArray)
+  async function fetchData(FavArray) {
+    //console.log("FETCHDATA START : ",FavArray)
     let arr = []
-    for(let i = 0; i< likedArray.length; i++) 
+    //console.log("FAV LENGTH : ", FavArray.length)
+    for(let i = 0; i< FavArray.length; i++) 
     {
        try {
-             const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${likedArray[i]}`)
+             const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${FavArray[i]}`)
              const data = await response.json()
+             //console.log("data.drinks :", data.drinks)
              if(data.drinks != null)
              {
-              arr.push(data.drinks)
+              arr.push(data.drinks[0])
              }
        } catch (error) {
           console.error(error)
        }
     }
+    //console.log("DATA : "+arr)
     setCocktails(arr)
+
  }
 
  useEffect(() => {
-  fetchData()
+  if(likedArray != null && likedArray != undefined)
+    fetchData(likedArray)
  },[likedArray])
 
  /*useEffect(() => {
@@ -48,7 +56,8 @@ export default function Favorites({ navigation })
             <ScrollView contentContainerStyle={styles.scrollView}>
                <FlatList
                   data={cocktails}
-                  renderItem={({item}) => <CocktailItem navigation={navigation} title={item.strDrink} image={item.strDrinkThumb} cocktailId={item.idDrink} />}
+                  renderItem={({item}) => 
+                  <CocktailItem navigation={navigation} title={item.strDrink} image={item.strDrinkThumb} cocktailId={item.idDrink} likeArray={likedArray}/>}
                   keyExtractor={item => 'favList'+item.idDrink}
                   horizontal={true}
                />

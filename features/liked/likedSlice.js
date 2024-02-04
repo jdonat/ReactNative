@@ -13,12 +13,12 @@ export const likedSlice = createSlice({
         if(index != -1)
         {
             state.idLiked.splice(index, 1)
-            console.log("ID : "+action.payload+" IS REMOVED AT INDEX :"+index)
+            //console.log("ID : "+action.payload+" IS REMOVED AT INDEX :"+index)
         }  
         else
         {
             state.idLiked.push(action.payload)
-            console.log("ID : "+action.payload+" IS LIKED ? AT INDEX :"+index)
+            //console.log("ID : "+action.payload+" IS LIKED ? AT INDEX :"+index)
         }
         //console.log("RESULTS : "+state.idLiked)
         return state

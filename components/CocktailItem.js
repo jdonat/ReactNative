@@ -1,23 +1,16 @@
 import { Pressable, Image, Text, StyleSheet, View } from 'react-native';
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { likedAction } from '../features/liked/likedSlice'
 
-export default function CocktailItem({ navigation, title, image, cocktailId })
+export default function CocktailItem({ navigation, title, image, cocktailId, likeArray })
 {
-  const likedArray = useSelector((state) => state.likedHandler.idLiked)
   const dispatch = useDispatch()
 
-  let index = likedArray.findIndex((el) => el === cocktailId)
-  let fav = false
-  if(index != -1)
-    fav = true
-  
-  const [liked, setLiked] = useState(fav)
+  const index = likeArray.findIndex((el) => el === cocktailId)
+  const liked = index !== -1
 
-  function changeImage(like){
-    
-    setLiked(!like)
+  function changeImage(){
     dispatch(likedAction(cocktailId))
   }
 
@@ -36,7 +29,7 @@ export default function CocktailItem({ navigation, title, image, cocktailId })
       </Pressable>
       <View style={styles.underImg}>
         <Pressable style={styles.logoContainerLeft} onPress={() => {
-          changeImage(liked)
+          changeImage()
           }}>
           <Image
                 style={styles.logo}
@@ -45,7 +38,7 @@ export default function CocktailItem({ navigation, title, image, cocktailId })
         </Pressable>
         <Text style={styles.title}>{title}</Text>
         <Pressable style={styles.logoContainerRight} onPress={() => {
-          changeImage(liked)
+          changeImage()
           }}>
           <Image
                 style={styles.logo}

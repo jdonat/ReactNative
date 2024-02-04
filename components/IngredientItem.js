@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flexDirection: 'column',
         marginVertical: 10,
+
     },
     ingredient: {
         fontSize: 20,
