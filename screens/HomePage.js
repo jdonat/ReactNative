@@ -1,19 +1,19 @@
 import { ActivityIndicator, SafeAreaView, ScrollView, ImageBackground, Text, StyleSheet, View, FlatList } from 'react-native';
 import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+
 import CocktailItem from '../components/CocktailItem'
 
-
-export default function HomePage({ navigation, storage })
+export default function HomePage({ navigation })
 {
 
-   
    const [cocktails, setCocktails] = useState(null)
  
-   
+   let likedArray = useSelector((state) => state.likedHandler.idLiked)
 
    async function fetchData() {
       let arr = []
-      for(let i = 0; i< 26; i++) 
+      for(let i = 0; i< 6; i++) 
       {
          try {
                let letter = String.fromCharCode(97 + i)
@@ -35,7 +35,7 @@ export default function HomePage({ navigation, storage })
          }
          //console.log("array length :", arr.length)
       }
-      for(let i = 0; i< 10; i++) 
+      /*for(let i = 0; i< 10; i++) 
       {
          try {
                //console.log("Chiffre :",i)
@@ -54,7 +54,7 @@ export default function HomePage({ navigation, storage })
          } catch (error) {
             console.error(error)
          }
-      }
+      }*/
       setCocktails(arr)
    }
 
@@ -88,7 +88,8 @@ export default function HomePage({ navigation, storage })
             <ScrollView contentContainerStyle={styles.scrollView}>
                <FlatList
                   data={cocktails}
-                  renderItem={({item}) => <CocktailItem navigation={navigation} title={item.strDrink} image={item.strDrinkThumb} cocktailId={item.idDrink} />}
+                  renderItem={({item}) => 
+                  <CocktailItem navigation={navigation} title={item.strDrink} image={item.strDrinkThumb} cocktailId={item.idDrink} likeArray={likedArray}/>}
                   keyExtractor={item => item.idDrink}
                   horizontal={true}
                />
