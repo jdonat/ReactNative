@@ -1,9 +1,16 @@
 import { Pressable, Image, Text, StyleSheet, View } from 'react-native';
-
+import { useState } from 'react'
 
 export default function CocktailItem({ navigation, title, image, cocktailId })
 {
-   return (
+  const [liked, setLiked] = useState(false)
+
+  function changeImage(like){
+    
+    setLiked(!like)
+  }
+
+      return (
 
    <View style={styles.container}>
       <Pressable style={styles.pressable} onPress={() => {
@@ -15,9 +22,26 @@ export default function CocktailItem({ navigation, title, image, cocktailId })
             style={styles.image}
             source= {{uri: image}}
          />
-         <Text style={styles.title}>{title}</Text>
-         <Text style={styles.title}>{cocktailId}</Text>
       </Pressable>
+      <View style={styles.underImg}>
+        <Pressable style={styles.logoContainerLeft} onPress={() => {
+          changeImage(liked)
+          }}>
+          <Image
+                style={styles.logo}
+                source= {liked ? require('../assets/liked.png') : require('../assets/like.png')}
+          />
+        </Pressable>
+        <Text style={styles.title}>{title}</Text>
+        <Pressable style={styles.logoContainerRight} onPress={() => {
+          changeImage(liked)
+          }}>
+          <Image
+                style={styles.logo}
+                source= {liked ? require('../assets/liked.png') : require('../assets/like.png')}
+          />
+        </Pressable>
+      </View>
    </View>
    )
 
@@ -26,7 +50,7 @@ export default function CocktailItem({ navigation, title, image, cocktailId })
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgba(255,255,255,0.7)',
+    backgroundColor: 'rgba(101,83,47,0.5)',
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
@@ -38,9 +62,10 @@ const styles = StyleSheet.create({
     padding: 30
   },
   title: {
-  fontSize: 20,
-  color: 'black',
-  paddingBottom: 10
+  fontSize: 30,
+  color: 'white',
+  paddingBottom: 10,
+  fontWeight: 'bold'
  },
  image: {
    height: 260,
@@ -48,11 +73,26 @@ const styles = StyleSheet.create({
    borderRadius: 5,
    padding: 20,
    margin: 20,
-   borderColor: 'red',
-   borderWidth: 2
  },
  pressable: {
    alignItems: 'center',
    justifyContent: 'center',
+ },
+ underImg: {
+    flexDirection: 'row'
+ },
+ logoContainerLeft: {
+    position: 'relative',
+    top: 12,
+    right: 10
+ },
+ logoContainerRight: {
+  position: 'relative',
+  top: 12,
+  left: 10
+},
+ logo: {
+  height: 20,
+  width: 20,
  }
 })

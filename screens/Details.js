@@ -16,7 +16,6 @@ export default function Details({ route })
          
          if(data.drinks != null)
          {
-            console.log(data.drinks)
             setCocktail(...data.drinks)
          }
       } catch (error) {
@@ -50,7 +49,6 @@ export default function Details({ route })
          </View>
       )
    }
-   
 }
 
 const styles = StyleSheet.create({
@@ -58,7 +56,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
   },
  backgroundImage: {
    height: '100%',
@@ -66,15 +63,6 @@ const styles = StyleSheet.create({
    alignItems: 'center',
    justifyContent: 'center',
  },
-  title: {
-  fontSize: 20,
-  paddingTop: 30,
-  color: 'white'
- },
- test: {
-   fontSize: 30,
-   color: 'white'
- }, 
  loader: {
    transform: [{ scaleX:2 }, { scaleY: 2 }],
  }

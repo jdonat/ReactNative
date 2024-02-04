@@ -1,9 +1,9 @@
-import { ActivityIndicator, SafeAreaView, Button, ScrollView, ImageBackground, Image, Text, StyleSheet, View, FlatList } from 'react-native';
+import { ActivityIndicator, SafeAreaView, ScrollView, ImageBackground, Text, StyleSheet, View, FlatList } from 'react-native';
 import { useEffect, useState } from 'react'
 import CocktailItem from '../components/CocktailItem'
 
 
-export default function HomePage({ navigation })
+export default function HomePage({ navigation, storage })
 {
 
    
@@ -83,14 +83,17 @@ export default function HomePage({ navigation })
    return (
    <SafeAreaView style={styles.container}>
       <ImageBackground source={require('../assets/bar-scene.jpeg')} resizeMode="cover" style={styles.backgroundImage}>
-      <ScrollView contentContainerStyle={styles.scrollView}>
-          <FlatList
-            data={cocktails}
-            renderItem={({item}) => <CocktailItem navigation={navigation} title={item.strDrink} image={item.strDrinkThumb} cocktailId={item.idDrink} />}
-            keyExtractor={item => item.idDrink}
-            horizontal={true}
-          />
-      </ScrollView>
+         <View style={styles.centeredView}>
+            <Text style={styles.title}>Cocktails</Text>
+            <ScrollView contentContainerStyle={styles.scrollView}>
+               <FlatList
+                  data={cocktails}
+                  renderItem={({item}) => <CocktailItem navigation={navigation} title={item.strDrink} image={item.strDrinkThumb} cocktailId={item.idDrink} />}
+                  keyExtractor={item => item.idDrink}
+                  horizontal={true}
+               />
+            </ScrollView>
+      </View>
       </ImageBackground>
    </SafeAreaView>
    )
@@ -99,7 +102,6 @@ export default function HomePage({ navigation })
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -109,15 +111,22 @@ const styles = StyleSheet.create({
    alignItems: 'center',
    justifyContent: 'center',
  },
- scrollView: {
-   alignItems: 'center',
-   justifyContent: 'center',
-   paddingTop: 50
+ title: {
+   color: 'white',
+   fontSize: 30,
+   paddingTop: 60,
+   fontWeight: 'bold'
  },
  centeredView: {
    alignItems: 'center',
    justifyContent: 'center',
  },
+ scrollView: {
+   alignItems: 'center',
+   justifyContent: 'center',
+   paddingTop: 50
+ },
+
  loader: {
    transform: [{ scaleX:2 }, { scaleY: 2 }],
  }
