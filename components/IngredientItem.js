@@ -3,10 +3,21 @@ import { Text, StyleSheet, View } from 'react-native';
 
 export default function IngredientItem({ ingredient, measure })
 {
+    let quantity = measure
+    //Convert oz to cl section
+    let index = measure.search('oz')
+    if(index !== -1)
+    {
+        result = ""
+        let cl = Math.round(parseInt(measure.charAt(index-2))*28.34952/10).toString()
+        
+        quantity = cl+" cl"
+    }
+    
    return (
    <View style={styles.container}>
         <Text style={styles.ingredient}>{ingredient}</Text>
-        <Text style={styles.measure}>{measure}</Text>
+        <Text style={styles.measure}>{quantity}</Text>
    </View>
    )
 }
