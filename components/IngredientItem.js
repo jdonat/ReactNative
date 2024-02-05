@@ -5,14 +5,18 @@ export default function IngredientItem({ ingredient, measure })
 {
     let quantity = measure
     //Convert oz to cl section
-    let index = measure.search('oz')
-    if(index !== -1)
+    if(measure != null)
     {
-        result = ""
-        let cl = Math.round(parseInt(measure.charAt(index-2))*28.34952/10).toString()
-        
-        quantity = cl+" cl"
+        let index = measure.search('oz')
+        if(index !== -1)
+        {
+            result = ""
+            let cl = Math.round(parseInt(measure.charAt(index-2))*28.34952/10).toString()
+            
+            quantity = cl+" cl"
+        }
     }
+    
     
    return (
    <View style={styles.container}>
