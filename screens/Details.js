@@ -4,7 +4,7 @@ import CocktailDetails from '../components/CocktailDetails'
 
 export default function Details({ route })
 {
-   const { cocktailId } = route.params
+   const { cocktailId, metricSystem } = route.params
    const [cocktail, setCocktail] = useState(null)
    const [idCocktail, setIdCocktail] = useState(cocktailId)
 
@@ -40,11 +40,12 @@ export default function Details({ route })
       )
    }
    else{
+      console.log("Details - Metric System :", metricSystem)
       return (
 
          <View style={styles.container}>
             <ImageBackground source={require('../assets/bar-scene.jpeg')} resizeMode="cover" style={styles.backgroundImage}>
-               <CocktailDetails cocktail={cocktail} />
+               <CocktailDetails cocktail={cocktail} metricSystem={metricSystem}/>
             </ImageBackground>
          </View>
       )

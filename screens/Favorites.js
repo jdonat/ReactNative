@@ -1,11 +1,13 @@
-import { ScrollView, FlatList, ImageBackground, Text, StyleSheet, View } from 'react-native';
+import { FlatList, ImageBackground, StyleSheet, View } from 'react-native';
 import { useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 
 import CocktailItem from '../components/CocktailItem'
+import TitlePage from '../components/TitlePage'
 
 export default function Favorites({ navigation })
 {
+
   let likedArray = useSelector((state) => state.likedHandler.idLiked)
   /*useEffect(() => {
     console.log("FAV START : ", likedArray)
@@ -52,8 +54,7 @@ export default function Favorites({ navigation })
    <View style={styles.container}>
       <ImageBackground source={require('../assets/bar-scene.jpeg')} resizeMode="cover" style={styles.backgroundImage}>
       <View style={styles.centeredView}>
-            <Text style={styles.title}>Favorites</Text>
-            <ScrollView contentContainerStyle={styles.scrollView}>
+        <TitlePage title='Favorites' />
                <FlatList
                   data={cocktails}
                   renderItem={({item}) => 
@@ -61,7 +62,6 @@ export default function Favorites({ navigation })
                   keyExtractor={item => 'favList'+item.idDrink}
                   horizontal={true}
                />
-            </ScrollView>
       </View>
 
       </ImageBackground>
@@ -102,4 +102,24 @@ const styles = StyleSheet.create({
  loader: {
    transform: [{ scaleX:2 }, { scaleY: 2 }],
  },
+ upperMenu: {
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexDirection: 'row',
+  height: 80
+},
+unitsSystemIcon: {
+  height: 40,
+  width: 40,
+  marginTop: 20
+},
+title: {
+  color: 'white',
+  fontSize: 30,
+  paddingTop: 30,
+  fontWeight: 'bold'
+},
+logoSystem: {
+  padding: 20
+},
 })
