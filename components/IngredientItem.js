@@ -5,23 +5,68 @@ export default function IngredientItem({ ingredient, measure })
 {
     let quantity = measure
     //Convert oz to cl section
-    let unitsSystem = useSelector((state) => state.unitsHandler.unitsSystem)
-    if(unitsSystem)
-    {
-        if(measure != null)
+    const unitsSystem = useSelector((state) => state.unitsHandler.unitsSystem)
+    if(measure != null)
+    { 
+        if(unitsSystem)
         {
             let index = measure.search('oz')
             if(index !== -1)
             {
-                result = ""
-                let cl = Math.round(parseInt(measure.charAt(index-2))*28.34952/10).toString()
-                
-                quantity = cl+" cl"
+                let inte
+                let cl
+                let num
+                let den
+                if(index > 2)
+                {
+                    let qt = measure.slice(0, index-1)
+                    let i = qt.indexOf(' ')
+                    inte = parseInt(qt.slice(0, i))
+                    i = qt.indexOf('/')
+                    num = parseInt(qt.slice(i-1, i))
+                    den = parseInt(qt.slice(i+1, i+2))
+                    let n = parseInt(num)
+                    let d = parseInt(den)
+                    let res = n/d
+                    res += inte
+                    cl = (Math.round((res)*2.834952)).toString()
+                }
+                else{
+                    cl = (Math.round(parseInt(measure.charAt(index-2))*2.834952)).toString()
+                }   
+                quantity = cl+" cl"+measure.slice(index+2)
             }
-        }  
-    }
+        }
+        else{
 
-    
+            let index = measure.search('cl')
+            if(index !== -1)
+            {
+                let inte
+                let oz
+                let num
+                let den
+                if(index > 2)
+                {
+                    let qt = measure.slice(0, index-1)
+                    let i = qt.indexOf(' ')
+                    inte = parseInt(qt.slice(0, i))
+                    i = qt.indexOf('/')
+                    num = parseInt(qt.slice(i-1, i))
+                    den = parseInt(qt.slice(i+1, i+2))
+                    let n = parseInt(num)
+                    let d = parseInt(den)
+                    let res = n/d
+                    res += inte
+                    oz = ((Math.round((res)*3.527396))/10).toString()
+                }
+                else{
+                    oz = ((Math.round(parseInt(measure.charAt(index-2))*3.527396))/10).toString()
+                }   
+                quantity = oz+" oz"+measure.slice(index+2)
+            }
+        }
+    }
     
    return (
    <View style={styles.container}>

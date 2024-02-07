@@ -1,21 +1,16 @@
-import { ActivityIndicator, SafeAreaView, Image, ImageBackground, Text, StyleSheet, View, FlatList, Pressable } from 'react-native';
+import { ActivityIndicator, SafeAreaView, ImageBackground, StyleSheet, View, FlatList } from 'react-native';
 import { useEffect, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 import CocktailItem from '../components/CocktailItem'
-
+import TitlePage from '../components/TitlePage'
 
 export default function HomePage({ navigation })
 {
-
    const [cocktails, setCocktails] = useState([])
    const [index, setIndex] = useState(0)
-   const [metricSystem, setMetricSystem] = useState(false)
 
    let likedArray = useSelector((state) => state.likedHandler.idLiked)
-   let unitsSystem = useSelector((state) => state.unitsHandler.unitsSystem)
-
-   const dispatch = useDispatch()
 
    async function fetchData() {
       let arr = []
@@ -68,10 +63,7 @@ export default function HomePage({ navigation })
       //console.log("FETCH #"+index)
       setIndex(index+1)
    }
-   function changeUnitsSystem()
-   {
-      dispatch(unitsAction())
-   }
+
   useEffect(() => {
    fetchData()
   },[])
@@ -94,31 +86,13 @@ export default function HomePage({ navigation })
    <SafeAreaView style={styles.container}>
       <ImageBackground source={require('../assets/bar-scene.jpeg')} resizeMode="cover" style={styles.backgroundImage}>
          <View style={styles.centeredView}>
-            <View style={styles.upperMenu}>
-               <Pressable style={styles.logoSystem} onPress={() => {
-                  changeUnitsSystem()
-               }}>
-                  <Image
-                     style={styles.unitsSystemIcon}
-                     source= {unitsSystem ? require('../assets/ozIcon.png') : require('../assets/onOzIcon.png')}
-                  />
-               </Pressable>
-               <Text style={styles.title}>Cocktails</Text>
-               <Pressable style={styles.logoSystem} onPress={() => {
-                  changeUnitsSystem()
-               }}>
-                  <Image
-                     style={styles.unitsSystemIcon}
-                     source= {unitsSystem ? require('../assets/onCLIcon.png') : require('../assets/cLIcon.png')}
-                  />
-               </Pressable>
-            </View>
+            <TitlePage title='Cocktails' />
                <FlatList
                   data={cocktails}
                   renderItem={({item}) => 
                   <CocktailItem 
                   navigation={navigation} title={item.strDrink} image={item.strDrinkThumb} 
-                  cocktailId={item.idDrink} likeArray={likedArray} metricSystem={metricSystem}
+                  cocktailId={item.idDrink} likeArray={likedArray}
                   />}
                   keyExtractor={item => item.idDrink}
                   onEndReached={fetchData}
@@ -144,35 +118,10 @@ const styles = StyleSheet.create({
    alignItems: 'center',
    justifyContent: 'center',
  },
- upperMenu: {
-   alignItems: 'center',
-   justifyContent: 'center',
-   flexDirection: 'row',
-   height: 80
- },
- unitsSystemIcon: {
-   height: 40,
-   width: 40,
-   marginTop: 20
- },
- title: {
-   color: 'white',
-   fontSize: 30,
-   paddingTop: 30,
-   fontWeight: 'bold'
- },
- logoSystem: {
-   padding: 20
- },
  centeredView: {
    alignItems: 'center',
    justifyContent: 'center',
  },
- /*scrollView: {
-   alignItems: 'center',
-   justifyContent: 'center',
-   paddingTop: 50
- },*/
  loader: {
    transform: [{ scaleX:2 }, { scaleY: 2 }],
  }

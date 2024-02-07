@@ -1,3 +1,4 @@
+//unitsSlice.js
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
@@ -13,3 +14,6 @@ export const unitsSlice = createSlice({
     },
   },
 })
+
+export const { unitsAction } = unitsSlice.actions;
+export default unitsSlice.reducer;

@@ -1,7 +1,8 @@
 import { SafeAreaView, ScrollView, FlatList, StyleSheet, Text, Image } from 'react-native';
 import IngredientItem from './IngredientItem'
+import TitlePage from './TitlePage'
 
-export default function CocktailDetails({ cocktail, metricSystem })
+export default function CocktailDetails({ cocktail })
 {
    let ingredients = [
       { id: 1, ingredient: cocktail.strIngredient1,  measure: cocktail.strMeasure1 },
@@ -28,7 +29,7 @@ export default function CocktailDetails({ cocktail, metricSystem })
    //console.log(ingredients)
       return (
       <SafeAreaView style={styles.container}>
-         <Text style={styles.title}>{cocktail.strDrink}</Text>
+         <TitlePage title={cocktail.strDrink}/>
          <ScrollView contentContainerStyle={styles.scrollView}>
             <Image
             style={styles.image}
@@ -38,7 +39,7 @@ export default function CocktailDetails({ cocktail, metricSystem })
             <FlatList
                style={styles.recipe}
                data={ingredients}
-               renderItem={({item}) => <IngredientItem ingredient={item.ingredient} measure={item.measure} metricSystem={metricSystem} />}
+               renderItem={({item}) => <IngredientItem ingredient={item.ingredient} measure={item.measure} />}
                keyExtractor={item => item.id}
                horizontal='true'
             />

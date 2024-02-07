@@ -1,12 +1,15 @@
+//TitlePage.js
 import { Image, Text, StyleSheet, View, Pressable } from 'react-native'
 
 import { useSelector, useDispatch } from 'react-redux'
+
+import { unitsAction } from '../features/units/unitsSlice'
 
 export default function TitlePage({ title })
 {
 
 let unitsSystem = useSelector((state) => state.unitsHandler.unitsSystem)
-console.log("TitlePage - unitsSystem", unitsSystem)
+//console.log("TitlePage - unitsSystem", unitsSystem)
 const dispatch = useDispatch()
 
 
