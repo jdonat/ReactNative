@@ -1,9 +1,9 @@
 import { Pressable, Image, Text, StyleSheet, View } from 'react-native';
-import { useState, useEffect } from 'react'
+
 import { useSelector, useDispatch } from 'react-redux'
 import { likedAction } from '../features/liked/likedSlice'
 
-export default function CocktailItem({ navigation, title, image, cocktailId, likeArray, metricSystem })
+export default function CocktailItem({ navigation, title, image, cocktailId, likeArray })
 {
   const dispatch = useDispatch()
 
@@ -20,7 +20,6 @@ export default function CocktailItem({ navigation, title, image, cocktailId, lik
       <Pressable style={styles.pressable} onPress={() => {
           navigation.navigate('Details', {
             cocktailId: cocktailId,
-            metricSystem: metricSystem,
           })
         }}>
          <Image

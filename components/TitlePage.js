@@ -41,7 +41,9 @@ const styles = StyleSheet.create({
      alignItems: 'center',
      justifyContent: 'center',
      flexDirection: 'row',
-     height: 80
+     heightMax: 120,
+     backgroundColor: 'rgba(0,0,0,0.5)',
+     borderRadius: 10
    },
    unitsSystemIcon: {
      height: 40,
@@ -52,7 +54,9 @@ const styles = StyleSheet.create({
      color: 'white',
      fontSize: 30,
      paddingTop: 30,
-     fontWeight: 'bold'
+     fontWeight: 'bold',
+     maxWidth: 240,
+     textAlign: 'center'
    },
    logoSystem: {
      padding: 20
