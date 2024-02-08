@@ -55,13 +55,13 @@ export default function Favorites({ navigation })
       <ImageBackground source={require('../assets/bar-scene.jpeg')} resizeMode="cover" style={styles.backgroundImage}>
       <View style={styles.centeredView}>
         <TitlePage title='Favorites' />
-        <FlatList
-          data={cocktails}
-          renderItem={({item}) => 
-          <CocktailItem navigation={navigation} title={item.strDrink} image={item.strDrinkThumb} cocktailId={item.idDrink} likeArray={likedArray}/>}
-          keyExtractor={item => 'favList'+item.idDrink}
-          horizontal={true}
-        />
+          <FlatList
+            data={cocktails}
+            renderItem={({item}) => 
+            <CocktailItem navigation={navigation} title={item.strDrink} image={item.strDrinkThumb} cocktailId={item.idDrink} likeArray={likedArray}/>}
+            keyExtractor={item => 'favList'+item.idDrink}
+            horizontal={true}
+          />
       </View>
 
       </ImageBackground>

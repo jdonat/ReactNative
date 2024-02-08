@@ -8,6 +8,7 @@ import HomePage from './screens/HomePage'
 import Details from './screens/Details'
 import Favorites from './screens/Favorites'
 import Search from './screens/Search'
+import Results from './screens/Results'
 
 export default function App() {
 
@@ -29,6 +30,7 @@ export default function App() {
           <Stack.Screen name="Details" component={Details}/>
           <Stack.Screen name="Favorites" component={Favorites}/>
           <Stack.Screen name="Search" component={Search}/>
+          <Stack.Screen name="Results" component={Results}/>
       </Stack.Navigator>
 
       </NavigationContainer>

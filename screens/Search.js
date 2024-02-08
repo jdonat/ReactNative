@@ -1,104 +1,103 @@
-import { Text, ImageBackground, StyleSheet, View, TextInput, Button } from 'react-native';
+import { FlatList, Text, ImageBackground, StyleSheet, View, TextInput, Button } from 'react-native';
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+
 import SelectDropdown from 'react-native-select-dropdown'
 
 
 //import TitlePage from '../components/TitlePage'
 
-export default function Search({ route, navigation })
+export default function Search({ navigation })
 {
     const [searchCocktailText, setSearchCocktailText] = useState('');
- //const [cocktails, setCocktails] = useState(null)
-/*
-  async function fetchData(FavArray) {
-    //console.log("FETCHDATA START : ",FavArray)
-    let arr = []
-    //console.log("FAV LENGTH : ", FavArray.length)
-    for(let i = 0; i< FavArray.length; i++) 
+    const [cocktails, setCocktails] = useState(null)
+    const [queryResponse, setQueryResponse] = useState('')
+
+
+async function fetchDataByCocktailName(text) {
+  let arr = []
+     try {
+        const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${text}`)
+        const data = await response.json()
+        if(data.drinks != null)
+        {
+           for(let j =0; j<data.drinks.length; j++)
+           {
+              arr.push(data.drinks[j])
+           }
+           setCocktails(arr)
+        }
+        else {
+          setQueryResponse('No Results')
+        }
+     } catch (error) {
+        console.error(error)
+     }
+     
+  }
+
+    if(cocktails == null)
     {
-       try {
-             const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${FavArray[i]}`)
-             const data = await response.json()
-             //console.log("data.drinks :", data.drinks)
-             if(data.drinks != null)
-             {
-              arr.push(data.drinks[0])
-             }
-       } catch (error) {
-          console.error(error)
-       }
-    }
-    //console.log("DATA : "+arr)
-    setCocktails(arr)
+      return (
 
- }
-
- useEffect(() => {
-  if(likedArray != null && likedArray != undefined)
-    fetchData(likedArray)
- },[likedArray])
-
- /*useEffect(() => {
-  setLikedArray(useSelector((state) => state.likedHandler.idLiked));
-}, [useSelector((state) => state.likedHandler.idLiked)]);*/
-
-    function searchByCocktailName()
-    {
-
-    }
-
-   return (
-
-   <View style={styles.container}>
-      <ImageBackground source={require('../assets/bar-scene.jpeg')} resizeMode="cover" style={styles.backgroundImage}>
-      <View style={styles.centeredView}>
-        <Text style={styles.title}>Search</Text>
-      </View>
-        <View style={styles.searchView}>
-            <TextInput style={styles.inputCocktail}
-            onChangeText={setSearchCocktailText}
-            value={searchCocktailText}
-            placeholder='Search Cocktail By Name'
-            />
-            <View style={styles.searchButtonView}>
-                <Text>TEST</Text>
-                <Button 
-                onPress={searchByCocktailName}
-                title="Search"
-                color="lightsalmon"
-                accessibilityLabel="Search Cocktails"/>
+        <View style={styles.container}>
+           <ImageBackground source={require('../assets/bar-scene.jpeg')} resizeMode="cover" style={styles.backgroundImage}>
+           <View style={styles.titleView}>
+             <Text style={styles.title}>Search</Text>
+           </View>
+           <View style={styles.centeredView}>
+             <View style={styles.searchView}>
+                 <TextInput style={styles.inputCocktail}
+                 onChangeText={setSearchCocktailText}
+                 value={searchCocktailText}
+                 placeholder='Search Cocktail By Name'
+                 />
+                 <View style={styles.searchButtonView}>
+                     <Button 
+                     onPress={() => fetchDataByCocktailName(searchCocktailText)}
+                     title="Search"
+                     color="lightsalmon"
+                     accessibilityLabel="Search Cocktails"/>
+                 </View>
+                 <Text style={styles.queryResp}>{queryResponse}</Text>
+             </View>
+             <View style={styles.searchView}>
+                 <Text style={styles.categoryDropdownTitle}>Search by Category</Text>
+                 <SelectDropdown
+                     dropdownStyle= {styles.dropdown}
+                     rowStyle={styles.row}
+                     rowTextStyle={styles.rowText}
+                     buttonStyle={styles.dropdown1BtnStyle}
+                     buttonTextStyle={styles.dropdown1BtnTxtStyle}
+                     data={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]}
+                     onSelect={(selectedItem, index) => {
+                         console.log(selectedItem, index)
+                     }}
+                     buttonTextAfterSelection={(selectedItem, index) => {
+                         // text represented after item is selected
+                         // if data array is an array of objects then return selectedItem.property to render after item is selected
+                         return selectedItem
+                     }}
+                     rowTextForSelection={(item, index) => {
+                         // text represented for each item in dropdown
+                         // if data array is an array of objects then return item.property to represent item in dropdown
+                         return item
+                     }}
+                 />
+             </View>
             </View>
+           </ImageBackground>
         </View>
-        <View style={styles.searchView}>
-            <Text style={styles.categoryDropdownTitle}>Search by Category</Text>
-            <SelectDropdown
-                dropdownStyle= {styles.dropdown}
-                rowStyle={styles.row}
-                rowTextStyle={styles.rowText}
-                buttonStyle={styles.dropdown1BtnStyle}
-                buttonTextStyle={styles.dropdown1BtnTxtStyle}
-                data={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]}
-                onSelect={(selectedItem, index) => {
-                    console.log(selectedItem, index)
-                }}
-                buttonTextAfterSelection={(selectedItem, index) => {
-                    // text represented after item is selected
-                    // if data array is an array of objects then return selectedItem.property to render after item is selected
-                    return selectedItem
-                }}
-                rowTextForSelection={(item, index) => {
-                    // text represented for each item in dropdown
-                    // if data array is an array of objects then return item.property to represent item in dropdown
-                    return item
-                }}
-            />
-        </View>
-      </ImageBackground>
-
-   </View>
-
-   )
+        )
+    }
+    else{
+      navigation.navigate('Results', {
+        cocktails: cocktails,
+      })
+      setCocktails(null)
+    }
+    
+   
 
 
 }
@@ -112,6 +111,10 @@ const styles = StyleSheet.create({
    height: '100%',
    width: '100%',
 
+ },
+ titleView: {
+  alignItems: 'center',
+  justifyContent: 'center',
  },
  centeredView: {
     alignItems: 'center',
@@ -129,8 +132,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   searchView: {
-    padding: 20,
+    
     marginTop: 50,
+    maxHeight: 120,
+    width: 300,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',
@@ -141,18 +146,22 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     fontSize: 16,
     marginTop: 10, 
-    width: 200
+    width: 200,
+    paddingHorizontal: 5
   },
   searchButtonView: {
     width: 80,
+    paddingVertical: 10
+  },
+  queryResp: {
+    color: 'red',
+    fontSize: 20
   },
   categoryDropdownTitle: {
     color: 'white',
     fontSize: 26,
-
-    paddingVertical: 8,
+    paddingVertical: 10,
     paddingHorizontal: 10,
-    borderRadius: 10
   },
   dropdown: {
     backgroundColor: 'lightsalmon'
@@ -167,6 +176,7 @@ const styles = StyleSheet.create({
   dropdown1BtnStyle: {
     backgroundColor: 'lightsalmon',
     borderRadius: 8,
+    marginBottom: 10
   },
   dropdown1BtnTxtStyle: {
     color: 'white',

@@ -84,23 +84,22 @@ export default function HomePage({ navigation })
   else{
    return (
    <SafeAreaView style={styles.container}>
-      <ImageBackground source={require('../assets/bar-scene.jpeg')} resizeMode="cover" style={styles.backgroundImage}>
+      <ImageBackground source={require('../assets/bar-scene.jpeg')} 
+      resizeMode="cover" style={styles.backgroundImage} >
          <View style={styles.centeredView}>
             <TitlePage title='Cocktails' />
-               <FlatList
-                  data={cocktails}
-                  renderItem={({item}) => 
-                  <CocktailItem 
-                  navigation={navigation} title={item.strDrink} image={item.strDrinkThumb} 
-                  cocktailId={item.idDrink} likeArray={likedArray}
-                  />}
-                  keyExtractor={item => item.idDrink}
-                  onEndReached={fetchData}
-                  onEndReachedThreshold={0.5}
-                  
-               />
-            {/*</ScrollView>*/}
-      </View>
+            <FlatList
+               data={cocktails}
+               renderItem={({item}) => 
+               <CocktailItem 
+               navigation={navigation} title={item.strDrink} image={item.strDrinkThumb} 
+               cocktailId={item.idDrink} likeArray={likedArray}
+               />}
+               keyExtractor={item => item.idDrink}
+               onEndReached={fetchData}
+               onEndReachedThreshold={0.5}
+            />
+         </View>
       </ImageBackground>
    </SafeAreaView>
    )
