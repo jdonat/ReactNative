@@ -1,6 +1,6 @@
 import { FlatList, Text, ImageBackground, StyleSheet, View, TextInput, Button } from 'react-native';
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import SelectDropdown from 'react-native-select-dropdown'
 
@@ -12,7 +12,25 @@ export default function Search({ navigation })
     const [searchCocktailText, setSearchCocktailText] = useState('');
     const [cocktails, setCocktails] = useState(null)
     const [queryResponse, setQueryResponse] = useState('')
+    const [cocktailCategories, setCocktailCategories] = useState([])
 
+async function fetchCocktailCategory() {
+  let arr = []
+  try {
+    const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list`)
+    const data = await response.json()
+    if(data.drinks != null)
+    {
+       for(let j =0; j<data.drinks.length; j++)
+       {
+          arr.push(...Object.values(data.drinks[j]))
+       }
+       setCocktailCategories(arr)
+    }
+ } catch (error) {
+    console.error(error)
+ }
+}
 
 async function fetchDataByCocktailName(text) {
   let arr = []
@@ -25,6 +43,7 @@ async function fetchDataByCocktailName(text) {
            {
               arr.push(data.drinks[j])
            }
+
            setCocktails(arr)
         }
         else {
@@ -36,10 +55,13 @@ async function fetchDataByCocktailName(text) {
      
   }
 
+  useEffect(() => {
+    fetchCocktailCategory()
+   },[])
+
     if(cocktails == null)
     {
       return (
-
         <View style={styles.container}>
            <ImageBackground source={require('../assets/bar-scene.jpeg')} resizeMode="cover" style={styles.backgroundImage}>
            <View style={styles.titleView}>
@@ -62,14 +84,14 @@ async function fetchDataByCocktailName(text) {
                  <Text style={styles.queryResp}>{queryResponse}</Text>
              </View>
              <View style={styles.searchView}>
-                 <Text style={styles.categoryDropdownTitle}>Search by Category</Text>
                  <SelectDropdown
                      dropdownStyle= {styles.dropdown}
                      rowStyle={styles.row}
                      rowTextStyle={styles.rowText}
                      buttonStyle={styles.dropdown1BtnStyle}
                      buttonTextStyle={styles.dropdown1BtnTxtStyle}
-                     data={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]}
+                     data={cocktailCategories}
+                     defaultButtonText='Search by Category'
                      onSelect={(selectedItem, index) => {
                          console.log(selectedItem, index)
                      }}
@@ -96,10 +118,6 @@ async function fetchDataByCocktailName(text) {
       })
       setCocktails(null)
     }
-    
-   
-
-
 }
 const styles = StyleSheet.create({
   container: {
@@ -132,8 +150,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   searchView: {
-    
     marginTop: 50,
+    padding: 30,
     maxHeight: 120,
     width: 300,
     alignItems: 'center',
@@ -145,23 +163,17 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.9)',
     borderRadius: 5,
     fontSize: 16,
-    marginTop: 10, 
+    marginTop: 20, 
     width: 200,
     paddingHorizontal: 5
   },
   searchButtonView: {
     width: 80,
-    paddingVertical: 10
+    paddingTop: 10
   },
   queryResp: {
     color: 'red',
     fontSize: 20
-  },
-  categoryDropdownTitle: {
-    color: 'white',
-    fontSize: 26,
-    paddingVertical: 10,
-    paddingHorizontal: 10,
   },
   dropdown: {
     backgroundColor: 'lightsalmon'
@@ -171,15 +183,16 @@ const styles = StyleSheet.create({
   },
   rowText: {
     color: 'white',
-    fontSize: 30
+    fontSize: 20
   },
   dropdown1BtnStyle: {
     backgroundColor: 'lightsalmon',
     borderRadius: 8,
-    marginBottom: 10
+    marginBottom: 10,
+    width: 220
   },
   dropdown1BtnTxtStyle: {
     color: 'white',
-    fontSize: 30
+    fontSize: 20
   }
 })
