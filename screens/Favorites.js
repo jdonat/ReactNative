@@ -60,7 +60,6 @@ export default function Favorites({ navigation })
             renderItem={({item}) => 
             <CocktailItem navigation={navigation} title={item.strDrink} image={item.strDrinkThumb} cocktailId={item.idDrink} likeArray={likedArray}/>}
             keyExtractor={item => 'favList'+item.idDrink}
-            horizontal={true}
           />
       </View>
 

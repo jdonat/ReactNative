@@ -3,7 +3,7 @@ import { FlatList, Text, ImageBackground, StyleSheet, View, TextInput, Button } 
 import { useState, useEffect } from 'react'
 
 import SelectDropdown from 'react-native-select-dropdown'
-
+import { LogBox } from "react-native"
 
 //import TitlePage from '../components/TitlePage'
 
@@ -13,7 +13,9 @@ export default function Search({ navigation })
     const [cocktails, setCocktails] = useState(null)
     const [queryResponse, setQueryResponse] = useState('')
     const [cocktailCategories, setCocktailCategories] = useState([])
+    
 
+    LogBox.ignoreAllLogs(true)
 async function fetchCocktailCategory() {
   let arr = []
   try {
@@ -30,6 +32,24 @@ async function fetchCocktailCategory() {
  } catch (error) {
     console.error(error)
  }
+}
+
+async function fetchDataByCocktailCategory(text) {
+  let arr = []
+     try {
+        const response = await fetch(`http://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${text}`)
+        const data = await response.json()
+        if(data.drinks != null)
+        {
+           for(let j =0; j<data.drinks.length; j++)
+           {
+              arr.push(data.drinks[j])
+           }
+           setCocktails(arr)
+        }
+      } catch (error) {
+        console.error(error)
+     }
 }
 
 async function fetchDataByCocktailName(text) {
@@ -58,7 +78,6 @@ async function fetchDataByCocktailName(text) {
   useEffect(() => {
     fetchCocktailCategory()
    },[])
-
     if(cocktails == null)
     {
       return (
@@ -92,18 +111,8 @@ async function fetchDataByCocktailName(text) {
                      buttonTextStyle={styles.dropdown1BtnTxtStyle}
                      data={cocktailCategories}
                      defaultButtonText='Search by Category'
-                     onSelect={(selectedItem, index) => {
-                         console.log(selectedItem, index)
-                     }}
-                     buttonTextAfterSelection={(selectedItem, index) => {
-                         // text represented after item is selected
-                         // if data array is an array of objects then return selectedItem.property to render after item is selected
-                         return selectedItem
-                     }}
-                     rowTextForSelection={(item, index) => {
-                         // text represented for each item in dropdown
-                         // if data array is an array of objects then return item.property to represent item in dropdown
-                         return item
+                     onSelect={(selectedItem) => {
+                         fetchDataByCocktailCategory(selectedItem)
                      }}
                  />
              </View>
@@ -113,6 +122,8 @@ async function fetchDataByCocktailName(text) {
         )
     }
     else{
+      //cock = JSON.parse(JSON.stringify(cocktails))
+      
       navigation.navigate('Results', {
         cocktails: cocktails,
       })

@@ -1,6 +1,8 @@
-import { Pressable, Image, Text, StyleSheet, View } from 'react-native';
+import { Pressable, Image, Text, StyleSheet, View } from 'react-native'
 
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import Toast from 'react-native-root-toast'
+
 import { likedAction } from '../features/liked/likedSlice'
 
 export default function CocktailItem({ navigation, title, image, cocktailId, likeArray })
@@ -11,6 +13,15 @@ export default function CocktailItem({ navigation, title, image, cocktailId, lik
   const liked = index !== -1
 
   function changeImage(){
+    
+    if(!liked)
+      Toast.show(`${title} added to your Favorites`, {
+        duration: Toast.durations.SHORT,
+      })
+    else
+      Toast.show(`${title} removed from your Favorites`, {
+        duration: Toast.durations.SHORT,
+      })
     dispatch(likedAction(cocktailId))
   }
 

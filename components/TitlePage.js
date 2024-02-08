@@ -2,6 +2,7 @@
 import { Image, Text, StyleSheet, View, Pressable } from 'react-native'
 
 import { useSelector, useDispatch } from 'react-redux'
+import Toast from 'react-native-root-toast'
 
 import { unitsAction } from '../features/units/unitsSlice'
 
@@ -16,7 +17,14 @@ const dispatch = useDispatch()
     return (
         <View style={styles.upperMenu}>
                <Pressable style={styles.logoSystem} onPress={() => {
-                  dispatch(unitsAction())
+                  if(unitsSystem)
+                  {
+                     Toast.show(`Switching to Imperial System`, {
+                        duration: Toast.durations.SHORT,
+                      })
+                      dispatch(unitsAction())
+                  }
+                  
                }}>
                   <Image
                      style={styles.unitsSystemIcon}
@@ -25,7 +33,14 @@ const dispatch = useDispatch()
                </Pressable>
                <Text style={styles.title}>{title}</Text>
                <Pressable style={styles.logoSystem} onPress={() => {
-                  dispatch(unitsAction())
+                  if(!unitsSystem)
+                  {
+                     Toast.show(`Switching to Metric System`, {
+                        duration: Toast.durations.SHORT,
+                      })
+                      dispatch(unitsAction())
+                  }
+                  
                }}>
                   <Image
                      style={styles.unitsSystemIcon}
