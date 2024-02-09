@@ -1,18 +1,13 @@
 //TitlePage.js
 import { Image, Text, StyleSheet, View, Pressable } from 'react-native'
-
 import { useSelector, useDispatch } from 'react-redux'
-import Toast from 'react-native-root-toast'
-
 import { unitsAction } from '../features/units/unitsSlice'
+import Toast from 'react-native-root-toast'
 
 export default function TitlePage({ title })
 {
-
 let unitsSystem = useSelector((state) => state.unitsHandler.unitsSystem)
-//console.log("TitlePage - unitsSystem", unitsSystem)
 const dispatch = useDispatch()
-
 
     return (
         <View style={styles.upperMenu}>
@@ -24,7 +19,6 @@ const dispatch = useDispatch()
                       })
                       dispatch(unitsAction())
                   }
-                  
                }}>
                   <Image
                      style={styles.unitsSystemIcon}
@@ -40,7 +34,6 @@ const dispatch = useDispatch()
                       })
                       dispatch(unitsAction())
                   }
-                  
                }}>
                   <Image
                      style={styles.unitsSystemIcon}
@@ -50,7 +43,6 @@ const dispatch = useDispatch()
         </View>
     )
 }
-
 const styles = StyleSheet.create({
    upperMenu: {
      alignItems: 'center',

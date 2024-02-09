@@ -15,13 +15,9 @@ export default function CocktailItem({ navigation, title, image, cocktailId, lik
   function changeImage(){
     
     if(!liked)
-      Toast.show(`${title} added to your Favorites`, {
-        duration: Toast.durations.SHORT,
-      })
+      Toast.show(`${title} added to your Favorites`)
     else
-      Toast.show(`${title} removed from your Favorites`, {
-        duration: Toast.durations.SHORT,
-      })
+      Toast.show(`${title} removed from your Favorites`)
     dispatch(likedAction(cocktailId))
   }
 

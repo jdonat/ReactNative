@@ -18,16 +18,12 @@ export default function HomePage({ navigation })
       {
          let letter = String.fromCharCode(97 + index)
          try {
-            //console.log("Lettre : ",letter)
             const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${letter}`)
-            //console.log(response)
             const data = await response.json()
             if(data.drinks != null)
             {
-               //console.log("Data length : ",data.drinks.length)
                for(let j =0; j<data.drinks.length; j++)
                {
-                  //console.log("Cocktail name : ", data.drinks[j].strDrink)
                   arr.push(data.drinks[j])
                }
             }
@@ -39,16 +35,12 @@ export default function HomePage({ navigation })
       {
          let i = index - 25
          try {
-            //console.log("Lettre : ",letter)
             const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${i}`)
-            //console.log(response)
             const data = await response.json()
             if(data.drinks != null)
             {
-               //console.log("Data length : ",data.drinks.length)
                for(let j =0; j<data.drinks.length; j++)
                {
-                  //console.log("Cocktail name : ", data.drinks[j].strDrink)
                   arr.push(data.drinks[j])
                }
             }
@@ -56,11 +48,7 @@ export default function HomePage({ navigation })
             console.error(error)
          }
       }
-      
-      //console.log("COCKTAILS : ", cocktails)
-      //console.log("Fetch Array : ", arr)
       setCocktails([...cocktails, ...arr])
-      //console.log("FETCH #"+index)
       setIndex(index+1)
    }
 

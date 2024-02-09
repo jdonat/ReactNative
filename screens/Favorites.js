@@ -9,23 +9,16 @@ export default function Favorites({ navigation })
 {
 
   let likedArray = useSelector((state) => state.likedHandler.idLiked)
-  /*useEffect(() => {
-    console.log("FAV START : ", likedArray)
-  }, [])*/
 
-  //const [likedArray, setLikedArray] = useState(useSelector((state) => state.likedHandler.idLiked))
   const [cocktails, setCocktails] = useState(null)
 
   async function fetchData(FavArray) {
-    //console.log("FETCHDATA START : ",FavArray)
     let arr = []
-    //console.log("FAV LENGTH : ", FavArray.length)
     for(let i = 0; i< FavArray.length; i++) 
     {
        try {
              const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${FavArray[i]}`)
              const data = await response.json()
-             //console.log("data.drinks :", data.drinks)
              if(data.drinks != null)
              {
               arr.push(data.drinks[0])
@@ -34,9 +27,7 @@ export default function Favorites({ navigation })
           console.error(error)
        }
     }
-    //console.log("DATA : "+arr)
     setCocktails(arr)
-
  }
 
  useEffect(() => {
@@ -44,32 +35,21 @@ export default function Favorites({ navigation })
     fetchData(likedArray)
  },[likedArray])
 
- /*useEffect(() => {
-  setLikedArray(useSelector((state) => state.likedHandler.idLiked));
-}, [useSelector((state) => state.likedHandler.idLiked)]);*/
-
-
    return (
-
    <View style={styles.container}>
       <ImageBackground source={require('../assets/bar-scene.jpeg')} resizeMode="cover" style={styles.backgroundImage}>
-      <View style={styles.centeredView}>
-        <TitlePage title='Favorites' />
-          <FlatList
-            data={cocktails}
-            renderItem={({item}) => 
-            <CocktailItem navigation={navigation} title={item.strDrink} image={item.strDrinkThumb} cocktailId={item.idDrink} likeArray={likedArray}/>}
-            keyExtractor={item => 'favList'+item.idDrink}
-          />
-      </View>
-
+        <View style={styles.centeredView}>
+          <TitlePage title='Favorites' />
+            <FlatList
+              data={cocktails}
+              renderItem={({item}) => 
+              <CocktailItem navigation={navigation} title={item.strDrink} image={item.strDrinkThumb} cocktailId={item.idDrink} likeArray={likedArray}/>}
+              keyExtractor={item => 'favList'+item.idDrink}
+            />
+        </View>
       </ImageBackground>
-
    </View>
-
    )
-
-
 }
 const styles = StyleSheet.create({
   container: {

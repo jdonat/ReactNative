@@ -1,21 +1,15 @@
-import { FlatList, Text, ImageBackground, StyleSheet, View, TextInput, Button } from 'react-native';
-
+import { Text, ImageBackground, StyleSheet, View, TextInput, Button } from 'react-native';
 import { useState, useEffect } from 'react'
 
 import SelectDropdown from 'react-native-select-dropdown'
-import { LogBox } from "react-native"
-
-//import TitlePage from '../components/TitlePage'
+import Toast from 'react-native-root-toast'
 
 export default function Search({ navigation })
 {
     const [searchCocktailText, setSearchCocktailText] = useState('');
-    const [cocktails, setCocktails] = useState(null)
-    const [queryResponse, setQueryResponse] = useState('')
     const [cocktailCategories, setCocktailCategories] = useState([])
     
 
-    LogBox.ignoreAllLogs(true)
 async function fetchCocktailCategory() {
   let arr = []
   try {
@@ -35,17 +29,15 @@ async function fetchCocktailCategory() {
 }
 
 async function fetchDataByCocktailCategory(text) {
-  let arr = []
      try {
         const response = await fetch(`http://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${text}`)
         const data = await response.json()
         if(data.drinks != null)
         {
-           for(let j =0; j<data.drinks.length; j++)
-           {
-              arr.push(data.drinks[j])
-           }
-           setCocktails(arr)
+
+           navigation.navigate('Results', {
+            cocktails: data.drinks,
+          })
         }
       } catch (error) {
         console.error(error)
@@ -53,33 +45,27 @@ async function fetchDataByCocktailCategory(text) {
 }
 
 async function fetchDataByCocktailName(text) {
-  let arr = []
      try {
         const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${text}`)
         const data = await response.json()
         if(data.drinks != null)
         {
-           for(let j =0; j<data.drinks.length; j++)
-           {
-              arr.push(data.drinks[j])
-           }
-
-           setCocktails(arr)
+           navigation.navigate('Results', {
+            cocktails: data.drinks,
+          })
         }
         else {
-          setQueryResponse('No Results')
+          Toast.show(`No Results for this Cocktail Name`)
         }
      } catch (error) {
         console.error(error)
      }
-     
   }
 
   useEffect(() => {
     fetchCocktailCategory()
    },[])
-    if(cocktails == null)
-    {
+
       return (
         <View style={styles.container}>
            <ImageBackground source={require('../assets/bar-scene.jpeg')} resizeMode="cover" style={styles.backgroundImage}>
@@ -100,7 +86,6 @@ async function fetchDataByCocktailName(text) {
                      color="lightsalmon"
                      accessibilityLabel="Search Cocktails"/>
                  </View>
-                 <Text style={styles.queryResp}>{queryResponse}</Text>
              </View>
              <View style={styles.searchView}>
                  <SelectDropdown
@@ -120,15 +105,8 @@ async function fetchDataByCocktailName(text) {
            </ImageBackground>
         </View>
         )
-    }
-    else{
-      //cock = JSON.parse(JSON.stringify(cocktails))
-      
-      navigation.navigate('Results', {
-        cocktails: cocktails,
-      })
-      setCocktails(null)
-    }
+    
+
 }
 const styles = StyleSheet.create({
   container: {
@@ -162,8 +140,7 @@ const styles = StyleSheet.create({
   },
   searchView: {
     marginTop: 50,
-    padding: 30,
-    maxHeight: 120,
+    padding: 20,
     width: 300,
     alignItems: 'center',
     justifyContent: 'center',
@@ -174,7 +151,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.9)',
     borderRadius: 5,
     fontSize: 16,
-    marginTop: 20, 
+    marginTop: 0, 
     width: 200,
     paddingHorizontal: 5
   },
@@ -182,24 +159,17 @@ const styles = StyleSheet.create({
     width: 80,
     paddingTop: 10
   },
-  queryResp: {
-    color: 'red',
-    fontSize: 20
-  },
   dropdown: {
     backgroundColor: 'lightsalmon'
   },
-  row: {
-    
-  },
+
   rowText: {
     color: 'white',
     fontSize: 20
   },
   dropdown1BtnStyle: {
     backgroundColor: 'lightsalmon',
-    borderRadius: 8,
-    marginBottom: 10,
+    borderRadius: 10,
     width: 220
   },
   dropdown1BtnTxtStyle: {

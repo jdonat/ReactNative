@@ -17,26 +17,18 @@ export default function App() {
 
     return (
      <RootSiblingParent> 
-      <Provider store={store}>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName={HomePage}
-        screenOptions={{headerShown: false}}
-        >
-          <Stack.Screen
-          name="MyTabBar"
-          component={MyTabBar}
-          
-        />
-
-          <Stack.Screen name="HomePage" component={HomePage}/>
-          <Stack.Screen name="Details" component={Details}/>
-          <Stack.Screen name="Favorites" component={Favorites}/>
-          <Stack.Screen name="Search" component={Search}/>
-          <Stack.Screen name="Results" component={Results}/>
-      </Stack.Navigator>
-
-      </NavigationContainer>
-      </Provider>
+        <Provider store={store}>
+          <NavigationContainer>
+            <Stack.Navigator initialRouteName={HomePage} screenOptions={{headerShown: false}}>
+              <Stack.Screen name="MyTabBar" component={MyTabBar}/>
+              <Stack.Screen name="HomePage" component={HomePage}/>
+              <Stack.Screen name="Details" component={Details}/>
+              <Stack.Screen name="Favorites" component={Favorites}/>
+              <Stack.Screen name="Search" component={Search}/>
+              <Stack.Screen name="Results" component={Results}/>
+            </Stack.Navigator>
+          </NavigationContainer>
+        </Provider>
       </RootSiblingParent>
     );
 
